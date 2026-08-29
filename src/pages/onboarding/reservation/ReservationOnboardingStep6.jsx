@@ -17,7 +17,7 @@ function ReservationOnboardingStep6() {
         </div>
       }
     >
-      <section className="flex h-full min-h-[736px] flex-col items-center justify-center px-6 font-['Pretendard',sans-serif]">
+      <section className="flex h-full min-h-[684px] flex-col items-center justify-center px-6 font-['Pretendard',sans-serif]">
         <div className="flex size-20 items-center justify-center rounded-full bg-[#3182f6]">
           <img
             className="size-10"

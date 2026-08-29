@@ -7,7 +7,7 @@ const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 const toDateKey = (date) =>
   `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
-function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
+function Calendar({ events = [], minDate = new Date(), onSelect, selectedDate }) {
   const [visibleMonth, setVisibleMonth] = useState(
     new Date(minDate.getFullYear(), minDate.getMonth(), 1),
   );
@@ -28,13 +28,14 @@ function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
 
   const moveMonth = (offset) => {
     setVisibleMonth(new Date(year, month + offset, 1));
+    onSelect(null);
   };
 
   return (
     <div className="w-full font-['Pretendard',sans-serif]">
       <div className="flex h-9 items-center justify-between">
         <button
-          className="flex size-9 items-center justify-center rounded-full"
+          className="flex size-9 items-center justify-center rounded-full transition-colors hover:bg-[#f2f4f6] active:bg-[#e5e8eb]"
           type="button"
           onClick={() => moveMonth(-1)}
         >
@@ -46,7 +47,7 @@ function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
         </strong>
 
         <button
-          className="flex size-9 items-center justify-center rounded-full"
+          className="flex size-9 items-center justify-center rounded-full transition-colors hover:bg-[#f2f4f6] active:bg-[#e5e8eb]"
           type="button"
           onClick={() => moveMonth(1)}
         >
@@ -71,7 +72,7 @@ function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
         ))}
       </div>
 
-      <div className="mt-1 grid grid-cols-7 grid-rows-6">
+      <div className="mt-1 grid grid-cols-7">
         {cells.map((day, index) => {
           if (!day) {
             return <span key={`empty-${index}`} className="h-[42px]" />;
@@ -81,9 +82,15 @@ function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
           const isDisabled = date < minimumDate;
           const isSelected = selectedDate
             && toDateKey(date) === toDateKey(selectedDate);
+          const event = events.find(
+            (calendarEvent) => toDateKey(calendarEvent.date) === toDateKey(date),
+          );
 
           return (
-            <div key={toDateKey(date)} className="flex h-[42px] items-center justify-center py-[3px]">
+            <div
+              key={toDateKey(date)}
+              className={`flex items-center justify-start py-[3px] ${event ? 'h-[75px] flex-col' : 'h-[42px] justify-center'}`}
+            >
               <button
                 className={`flex size-9 items-center justify-center rounded-full text-[13px] font-medium leading-[19.5px] ${
                   isSelected
@@ -99,6 +106,17 @@ function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
               >
                 {day}
               </button>
+
+              {event && (
+                <div className="mt-0.5 w-full min-w-0 px-0.5 text-center">
+                  <p className="truncate rounded bg-[#ebf3fe] px-1 py-0.5 text-[10px] font-medium leading-[12.5px] text-[#3182f6]">
+                    {event.label}
+                  </p>
+                  <p className="pt-0.5 text-[10px] leading-[15px] text-[#8b95a1]">
+                    {event.time}
+                  </p>
+                </div>
+              )}
             </div>
           );
         })}
