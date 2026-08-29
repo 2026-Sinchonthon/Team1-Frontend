@@ -18,7 +18,7 @@ function MainPage() {
 
   return (
     <MobileLayout>
-      <section className="flex min-h-[calc(100dvh-52px)] flex-col overflow-hidden bg-white font-['Pretendard',sans-serif] sm:min-h-[792px]">
+      <section className="flex h-full min-h-0 flex-col overflow-hidden bg-white font-['Pretendard',sans-serif]">
         <header className="shrink-0 px-6 pb-8 pt-5">
           <p className="text-[13px] font-semibold leading-[19.5px] tracking-[1.3px] text-[#3182f6]">
             UNIPUB

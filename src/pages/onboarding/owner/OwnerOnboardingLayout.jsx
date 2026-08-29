@@ -46,7 +46,7 @@ function OwnerOnboardingLayout({
 
   return (
     <MobileLayout>
-      <section className="flex min-h-[calc(100dvh-52px)] flex-col overflow-hidden bg-white font-['Pretendard',sans-serif] sm:min-h-[792px]">
+      <section className="flex h-full min-h-0 flex-col overflow-hidden bg-white font-['Pretendard',sans-serif]">
         <div className="h-0.5 w-full shrink-0 bg-[#f2f4f6]">
           <div
             className="h-full bg-[#3182f6] transition-[width] duration-500 ease-out"
