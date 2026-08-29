@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { createOffer } from '../../../apis/offer';
-import { getMyStores } from '../../../apis/store';
 import OwnerBottomNav from '../../../components/owner/OwnerBottomNav';
 import ProposalHeader from '../../../components/owner/ProposalHeader';
 import MobileLayout from '../../../layouts/MobileLayout';
@@ -17,7 +16,7 @@ const SUMMARY_ROWS = [
 
 function ProposalCreatePage() {
   const { requestId } = useParams();
-  const { getRequest, proposals, submitProposal } = useOwnerProposal();
+  const { getRequest, proposals, storeId, submitProposal } = useOwnerProposal();
   const request = getRequest(requestId);
 
   const [message, setMessage] = useState('');
@@ -38,16 +37,20 @@ function ProposalCreatePage() {
     setIsSubmitting(true);
 
     try {
-      const { result } = await getMyStores();
-      const myStore = result.stores[0];
-      if (!myStore) {
+      if (!storeId) {
         throw new Error('등록된 가게가 없어요.');
       }
 
+      // offeredTotalPrice는 화면에 입력칸이 없어서, 실제 예산(totalBudget)에
+      // 할인율만큼 뺀 금액으로 내부 계산해서 보냄
+      const rate = discountRate === '' ? 0 : Number(discountRate);
+      const offeredTotalPrice = Math.round(request.totalBudgetRaw * (1 - rate / 100));
+
       await createOffer(request.id, {
-        discountRate: discountRate === '' ? undefined : Number(discountRate),
+        discountRate: discountRate === '' ? undefined : rate,
         message,
-        storeId: myStore.storeId,
+        offeredTotalPrice,
+        storeId,
       });
 
       submitProposal(request.id, { discountRate, message });
