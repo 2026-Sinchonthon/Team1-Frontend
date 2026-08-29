@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { createOffer } from '../../../apis/offer';
+import { getMyStores } from '../../../apis/store';
 import OwnerBottomNav from '../../../components/owner/OwnerBottomNav';
 import ProposalHeader from '../../../components/owner/ProposalHeader';
 import MobileLayout from '../../../layouts/MobileLayout';
@@ -20,17 +22,42 @@ function ProposalCreatePage() {
 
   const [message, setMessage] = useState('');
   const [discountRate, setDiscountRate] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   if (!request) {
     return <Navigate to="/owner/proposal" replace />;
   }
 
   const submittedProposal = proposals[request.id];
-  const nextDisabled = !message.trim() || discountRate === '';
+  const nextDisabled = isSubmitting || !message.trim() || discountRate === '';
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (nextDisabled) return;
-    submitProposal(request.id, { discountRate, message });
+    setSubmitError('');
+    setIsSubmitting(true);
+
+    try {
+      const { result } = await getMyStores();
+      const myStore = result.stores[0];
+      if (!myStore) {
+        throw new Error('등록된 가게가 없어요.');
+      }
+
+      await createOffer(request.id, {
+        discountRate: discountRate === '' ? undefined : Number(discountRate),
+        message,
+        storeId: myStore.storeId,
+      });
+
+      submitProposal(request.id, { discountRate, message });
+    } catch (error) {
+      console.error(error);
+      // 목데이터 예약 요청이라 실제 서버엔 없는 requestId일 수 있음
+      setSubmitError('제안 전송에 실패했어요. 실제 예약 요청이 아니면 정상이에요.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -175,13 +202,18 @@ function ProposalCreatePage() {
           <OwnerBottomNav />
         ) : (
           <footer className="shrink-0 px-6 pb-10 pt-3">
+            {submitError && (
+              <p className="mb-2 text-center text-[13px] font-medium text-[#f04438]">
+                {submitError}
+              </p>
+            )}
             <button
               className="h-14 w-full rounded-2xl bg-[#3182f6] text-[17px] font-semibold text-white transition-[background,transform] duration-150 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-[#f2f4f6] disabled:text-[#8b95a1]"
               disabled={nextDisabled}
               onClick={handleSubmit}
               type="button"
             >
-              제안 전송하기
+              {isSubmitting ? '전송 중...' : '제안 전송하기'}
             </button>
           </footer>
         )}
