@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getMyStores, registerMenus, registerStore } from '../../../apis/store';
 import OwnerOnboardingLayout from './OwnerOnboardingLayout';
 import { useOwnerOnboarding } from './useOwnerOnboarding';
 
@@ -42,27 +44,83 @@ const MOCK_IMPORTED_MENU = [
   '가츠동',
 ];
 
+// 메뉴 카테고리/가격을 아직 입력받는 화면이 없어서, 일단 고정값으로 등록
+// (price는 스펙엔 선택값이라고 나와있는데, 실제 서버는 0원보다 커야 함 - 없으면 400)
+// TODO: 메뉴별 카테고리(MAIN/FRIED/SOUP/DRY/SIDE/ETC), 가격 입력 UI 생기면 교체
+const DEFAULT_MENU_PRICE = 1000;
+
+function toMenuPayload(menuName) {
+  return { category: 'ETC', name: menuName, price: DEFAULT_MENU_PRICE };
+}
+
+// 상권 선택 화면이 디자인에 없어서, 일단 고정값으로 등록 (신촌쿵야 프로젝트 기준)
+// TODO: 상권 선택 UI 생기면 formData 기반으로 교체
+const DEFAULT_REGION = 'SINCHON';
+
 function OwnerOnboardingStep4() {
   const navigate = useNavigate();
   const { formData, updateFormData } = useOwnerOnboarding();
-  const { importedMenu, manualMenuText, menuType } = formData;
+  const { address, capacity, importedMenu, manualMenuText, menuType, storeName } = formData;
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const nextDisabled =
-    !menuType || (menuType === 'manual' && !manualMenuText.trim());
+    isSubmitting || !menuType || (menuType === 'manual' && !manualMenuText.trim());
 
-  const handleFinish = () => {
-    // TODO: formData를 백엔드에 제출하는 로직 연결
-    navigate('/owner/proposal');
+  const handleFinish = async () => {
+    setSubmitError('');
+    setIsSubmitting(true);
+
+    try {
+      await registerStore({
+        address,
+        maxCapacity: capacity ? Number(capacity) : undefined,
+        name: storeName,
+        region: DEFAULT_REGION,
+      });
+
+      // registerStore 응답에 storeId가 안 내려와서, 방금 만든 가게를 찾아옴
+      const { result } = await getMyStores();
+      const myStore =
+        result.stores.find((store) => store.name === storeName) ??
+        result.stores[result.stores.length - 1];
+
+      const menus =
+        menuType === 'import'
+          ? importedMenu.map(toMenuPayload)
+          : manualMenuText
+              .split(',')
+              .map((name) => name.trim())
+              .filter(Boolean)
+              .map(toMenuPayload);
+
+      if (myStore && menus.length > 0) {
+        await registerMenus(myStore.storeId, menus);
+      }
+
+      navigate('/owner/proposal');
+    } catch (error) {
+      console.error(error);
+      setSubmitError('제출 중 문제가 발생했어요. 다시 시도해주세요.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <OwnerOnboardingLayout
       nextDisabled={nextDisabled}
-      nextLabel="완료"
+      nextLabel={isSubmitting ? '등록 중...' : '완료'}
       onNext={handleFinish}
       step={4}
       title="가게 메뉴를 등록해주세요"
     >
+      {submitError && (
+        <p className="mb-3 font-['Pretendard',sans-serif] text-[13px] font-medium text-[#f04438]">
+          {submitError}
+        </p>
+      )}
       <div className="flex flex-col gap-3">
         {MENU_OPTIONS.map((option) => {
           const isSelected = menuType === option.id;
