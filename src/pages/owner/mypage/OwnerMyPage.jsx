@@ -12,7 +12,7 @@ function OwnerMyPage() {
   return (
     <MobileLayout>
       <section className="flex h-full min-h-0 flex-col overflow-hidden bg-white font-['Pretendard',sans-serif]">
-        <div className="shrink-0 border-b border-[#f2f4f6] px-6 pb-4 pt-[72px]">
+        <div className="shrink-0 border-b border-[#f2f4f6] px-6 pb-4 pt-5">
           <p className="text-center text-[17px] font-semibold text-[#191f28]">마이페이지</p>
         </div>
 
