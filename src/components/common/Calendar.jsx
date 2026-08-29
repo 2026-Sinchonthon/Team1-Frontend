@@ -7,6 +7,11 @@ const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 const toDateKey = (date) =>
   `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
+const formatEventLabel = (label) => {
+  const characters = Array.from(label);
+  return characters.length > 3 ? `${characters.slice(0, 3).join('')}..` : label;
+};
+
 function Calendar({ events = [], minDate = new Date(), onSelect, selectedDate }) {
   const [visibleMonth, setVisibleMonth] = useState(
     new Date(minDate.getFullYear(), minDate.getMonth(), 1),
@@ -110,7 +115,7 @@ function Calendar({ events = [], minDate = new Date(), onSelect, selectedDate })
               {event && (
                 <div className="mt-0.5 w-full min-w-0 px-0.5 text-center">
                   <p className="truncate rounded bg-[#ebf3fe] px-1 py-0.5 text-[10px] font-medium leading-[12.5px] text-[#3182f6]">
-                    {event.label}
+                    {formatEventLabel(event.label)}
                   </p>
                   <p className="pt-0.5 text-[10px] leading-[15px] text-[#8b95a1]">
                     {event.time}
