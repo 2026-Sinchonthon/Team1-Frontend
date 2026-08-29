@@ -6,7 +6,7 @@ import { useOwnerProposal } from './useOwnerProposal';
 
 function ProposalCheckPage() {
   const navigate = useNavigate();
-  const { proposals, requests } = useOwnerProposal();
+  const { isLoading, loadError, proposals, requests } = useOwnerProposal();
 
   return (
     <MobileLayout>
@@ -14,6 +14,20 @@ function ProposalCheckPage() {
         <ProposalHeader title="단체 예약 확인하기" />
 
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-6 py-4">
+          {isLoading && (
+            <p className="pt-10 text-center text-[14px] text-[#8b95a1]">불러오는 중...</p>
+          )}
+
+          {!isLoading && loadError && (
+            <p className="pt-10 text-center text-[14px] text-[#f04438]">{loadError}</p>
+          )}
+
+          {!isLoading && !loadError && requests.length === 0 && (
+            <p className="pt-10 text-center text-[14px] text-[#8b95a1]">
+              지금은 들어온 예약 요청이 없어요.
+            </p>
+          )}
+
           {requests.map((request) => {
             const isProposed = Boolean(proposals[request.id]);
 
@@ -48,7 +62,7 @@ function ProposalCheckPage() {
                   </span>
 
                   <span className="mt-1.5 block text-[13px] text-[#8b95a1]">
-                    {request.dateShort} · 40명
+                    {request.dateShort} · {request.headcount}명
                   </span>
 
                   <span className="mt-2 flex gap-1.5">
