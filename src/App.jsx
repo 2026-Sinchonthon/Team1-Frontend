@@ -15,15 +15,27 @@ import {
 } from './pages/onboarding';
 import { OwnerOnboardingProvider } from './pages/onboarding/owner/OwnerOnboardingContext';
 import {
+  OwnerMyPage,
+  OwnerProposalProvider,
+  OwnerReservationDetailPage,
   ProposalCheckPage,
   ProposalCreatePage,
-} from './pages/proposal';
+  ProposalDetailPage,
+} from './pages/owner';
 
 function OwnerOnboardingRoutes() {
   return (
     <OwnerOnboardingProvider>
       <Outlet />
     </OwnerOnboardingProvider>
+  );
+}
+
+function OwnerProposalRoutes() {
+  return (
+    <OwnerProposalProvider>
+      <Outlet />
+    </OwnerProposalProvider>
   );
 }
 
@@ -50,8 +62,15 @@ function App() {
         <Route path="/onboarding/owner/4" element={<OwnerOnboardingStep4 />} />
       </Route>
 
-      <Route path="/proposals" element={<ProposalCheckPage />} />
-      <Route path="/proposals/new" element={<ProposalCreatePage />} />
+      <Route path="/owner/mypage" element={<OwnerMyPage />} />
+      <Route path="/owner/mypage/:reservationId" element={<OwnerReservationDetailPage />} />
+
+      <Route element={<OwnerProposalRoutes />}>
+        <Route path="/owner/proposal" element={<ProposalCheckPage />} />
+        <Route path="/owner/proposal/:requestId" element={<ProposalDetailPage />} />
+        <Route path="/owner/proposal/:requestId/new" element={<ProposalCreatePage />} />
+      </Route>
+
       <Route path="/my" element={<MyPage />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
