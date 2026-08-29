@@ -3,9 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import OnboardingNextButton from '../../../components/onboarding/OnboardingNextButton';
 import MobileLayout from '../../../layouts/MobileLayout';
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 4;
 
-function OwnerOnboardingLayout({ children, nextDisabled = false, onNext, step, title }) {
+function OwnerOnboardingLayout({
+  children,
+  nextDisabled = false,
+  nextLabel = '다음',
+  onNext,
+  step,
+  title,
+}) {
   const navigate = useNavigate();
   const previousProgress = ((step - 1) / TOTAL_STEPS) * 100;
   const currentProgress = (step / TOTAL_STEPS) * 100;
@@ -65,7 +72,7 @@ function OwnerOnboardingLayout({ children, nextDisabled = false, onNext, step, t
         <div className="flex-1 px-6">{children}</div>
 
         <footer className="h-[108px] shrink-0 px-6 pb-10 pt-3">
-          <OnboardingNextButton disabled={nextDisabled} onClick={handleNext} />
+          <OnboardingNextButton disabled={nextDisabled} label={nextLabel} onClick={handleNext} />
         </footer>
       </section>
     </MobileLayout>

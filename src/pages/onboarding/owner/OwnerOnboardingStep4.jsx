@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import OwnerOnboardingLayout from './OwnerOnboardingLayout';
 import { useOwnerOnboarding } from './useOwnerOnboarding';
 
@@ -42,14 +43,26 @@ const MOCK_IMPORTED_MENU = [
 ];
 
 function OwnerOnboardingStep4() {
+  const navigate = useNavigate();
   const { formData, updateFormData } = useOwnerOnboarding();
   const { importedMenu, manualMenuText, menuType } = formData;
 
   const nextDisabled =
     !menuType || (menuType === 'manual' && !manualMenuText.trim());
 
+  const handleFinish = () => {
+    // TODO: formData를 백엔드에 제출하는 로직 연결
+    navigate('/owner/proposal');
+  };
+
   return (
-    <OwnerOnboardingLayout nextDisabled={nextDisabled} step={4} title="가게 메뉴를 등록해주세요">
+    <OwnerOnboardingLayout
+      nextDisabled={nextDisabled}
+      nextLabel="완료"
+      onNext={handleFinish}
+      step={4}
+      title="가게 메뉴를 등록해주세요"
+    >
       <div className="flex flex-col gap-3">
         {MENU_OPTIONS.map((option) => {
           const isSelected = menuType === option.id;

@@ -20,12 +20,28 @@ import {
   ProposalCreatePage,
   ProposalDetailPage,
 } from './pages/proposal';
+import {
+  OwnerMyPage,
+  OwnerProposalProvider,
+  OwnerReservationDetailPage,
+  ProposalCheckPage as OwnerProposalCheckPage,
+  ProposalCreatePage as OwnerProposalCreatePage,
+  ProposalDetailPage as OwnerProposalDetailPage,
+} from './pages/owner';
 
 function OwnerOnboardingRoutes() {
   return (
     <OwnerOnboardingProvider>
       <Outlet />
     </OwnerOnboardingProvider>
+  );
+}
+
+function OwnerProposalRoutes() {
+  return (
+    <OwnerProposalProvider>
+      <Outlet />
+    </OwnerProposalProvider>
   );
 }
 
@@ -55,6 +71,15 @@ function App() {
       <Route path="/proposals" element={<ProposalCheckPage />} />
       <Route path="/proposals/:proposalId" element={<ProposalDetailPage />} />
       <Route path="/proposals/new" element={<ProposalCreatePage />} />
+
+      <Route path="/owner/mypage" element={<OwnerMyPage />} />
+      <Route path="/owner/mypage/:reservationId" element={<OwnerReservationDetailPage />} />
+
+      <Route element={<OwnerProposalRoutes />}>
+        <Route path="/owner/proposal" element={<OwnerProposalCheckPage />} />
+        <Route path="/owner/proposal/:requestId" element={<OwnerProposalDetailPage />} />
+        <Route path="/owner/proposal/:requestId/new" element={<OwnerProposalCreatePage />} />
+      </Route>
       <Route path="/my" element={<MyPage />} />
       <Route path="/my/reservations/:reservationId" element={<ReservationDetailPage />} />
 
