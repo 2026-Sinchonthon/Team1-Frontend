@@ -11,6 +11,8 @@ function MainPage() {
   const handleNext = () => {
     if (selectedPurpose === 'reservation') {
       navigate('/onboarding/reservation/1');
+    } else if (selectedPurpose === 'owner') {
+      navigate('/onboarding/owner/1');
     }
   };
 
@@ -40,14 +42,13 @@ function MainPage() {
             emoji="🏪"
             title="가게 등록하기"
             description="단체 손님을 받는 사장님이에요"
+            isSelected={selectedPurpose === 'owner'}
+            onClick={() => setSelectedPurpose('owner')}
           />
         </div>
 
         <footer className="h-[108px] shrink-0 px-6 pb-10 pt-3">
-          <OnboardingNextButton
-            disabled={selectedPurpose !== 'reservation'}
-            onClick={handleNext}
-          />
+          <OnboardingNextButton disabled={!selectedPurpose} onClick={handleNext} />
         </footer>
       </section>
     </MobileLayout>
