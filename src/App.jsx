@@ -2,6 +2,10 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import MyPage from './pages/my';
 import {
+  OwnerOnboardingStep1,
+  OwnerOnboardingStep2,
+  OwnerOnboardingStep3,
+  OwnerOnboardingStep4,
   ReservationOnboardingStep1,
   ReservationOnboardingStep2,
   ReservationOnboardingStep3,
@@ -9,10 +13,20 @@ import {
   ReservationOnboardingStep5,
   ReservationOnboardingStep6,
 } from './pages/onboarding';
+import { OwnerOnboardingProvider } from './pages/onboarding/owner/OwnerOnboardingContext';
+import OwnerOnboardingShell from './pages/onboarding/owner/OwnerOnboardingShell';
 import {
   ProposalCheckPage,
   ProposalCreatePage,
 } from './pages/proposal';
+
+function OwnerOnboardingRoutes() {
+  return (
+    <OwnerOnboardingProvider>
+      <OwnerOnboardingShell />
+    </OwnerOnboardingProvider>
+  );
+}
 
 function App() {
   return (
@@ -28,6 +42,14 @@ function App() {
       <Route path="/onboarding/reservation/4" element={<ReservationOnboardingStep4 />} />
       <Route path="/onboarding/reservation/5" element={<ReservationOnboardingStep5 />} />
       <Route path="/onboarding/reservation/6" element={<ReservationOnboardingStep6 />} />
+
+      <Route element={<OwnerOnboardingRoutes />}>
+        <Route path="/onboarding/owner" element={<Navigate to="/onboarding/owner/1" replace />} />
+        <Route path="/onboarding/owner/1" element={<OwnerOnboardingStep1 />} />
+        <Route path="/onboarding/owner/2" element={<OwnerOnboardingStep2 />} />
+        <Route path="/onboarding/owner/3" element={<OwnerOnboardingStep3 />} />
+        <Route path="/onboarding/owner/4" element={<OwnerOnboardingStep4 />} />
+      </Route>
 
       <Route path="/proposals" element={<ProposalCheckPage />} />
       <Route path="/proposals/new" element={<ProposalCreatePage />} />

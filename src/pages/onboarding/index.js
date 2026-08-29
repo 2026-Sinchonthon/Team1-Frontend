@@ -6,3 +6,10 @@ export {
   ReservationOnboardingStep5,
   ReservationOnboardingStep6,
 } from './reservation';
+
+export {
+  OwnerOnboardingStep1,
+  OwnerOnboardingStep2,
+  OwnerOnboardingStep3,
+  OwnerOnboardingStep4,
+} from './owner';
