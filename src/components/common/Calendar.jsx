@@ -36,7 +36,6 @@ function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
         <button
           className="flex size-9 items-center justify-center rounded-full"
           type="button"
-          aria-label="이전 달"
           onClick={() => moveMonth(-1)}
         >
           <img className="size-[18px]" src={chevronLeft} alt="" />
@@ -49,7 +48,6 @@ function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
         <button
           className="flex size-9 items-center justify-center rounded-full"
           type="button"
-          aria-label="다음 달"
           onClick={() => moveMonth(1)}
         >
           <img className="size-[18px]" src={chevronRight} alt="" />
@@ -96,7 +94,6 @@ function Calendar({ minDate = new Date(), onSelect, selectedDate }) {
                 }`}
                 type="button"
                 disabled={isDisabled}
-                aria-label={`${year}년 ${month + 1}월 ${day}일`}
                 aria-pressed={isSelected}
                 onClick={() => onSelect(date)}
               >
