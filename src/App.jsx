@@ -1,6 +1,7 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import MyPage from './pages/my';
+import { ReservationDetailPage } from './pages/my';
 import {
   OwnerOnboardingStep1,
   OwnerOnboardingStep2,
@@ -17,6 +18,7 @@ import { OwnerOnboardingProvider } from './pages/onboarding/owner/OwnerOnboardin
 import {
   ProposalCheckPage,
   ProposalCreatePage,
+  ProposalDetailPage,
 } from './pages/proposal';
 
 function OwnerOnboardingRoutes() {
@@ -51,8 +53,10 @@ function App() {
       </Route>
 
       <Route path="/proposals" element={<ProposalCheckPage />} />
+      <Route path="/proposals/:proposalId" element={<ProposalDetailPage />} />
       <Route path="/proposals/new" element={<ProposalCreatePage />} />
       <Route path="/my" element={<MyPage />} />
+      <Route path="/my/reservations/:reservationId" element={<ReservationDetailPage />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

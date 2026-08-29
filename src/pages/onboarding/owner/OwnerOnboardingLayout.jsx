@@ -39,7 +39,7 @@ function OwnerOnboardingLayout({ children, nextDisabled = false, onNext, step, t
 
   return (
     <MobileLayout>
-      <section className="flex min-h-dvh flex-col overflow-hidden bg-white font-['Pretendard',sans-serif] sm:min-h-[844px]">
+      <section className="flex min-h-[calc(100dvh-52px)] flex-col overflow-hidden bg-white font-['Pretendard',sans-serif] sm:min-h-[792px]">
         <div className="h-0.5 w-full shrink-0 bg-[#f2f4f6]">
           <div
             className="h-full bg-[#3182f6] transition-[width] duration-500 ease-out"
@@ -50,7 +50,7 @@ function OwnerOnboardingLayout({ children, nextDisabled = false, onNext, step, t
         <header className="flex h-[68px] shrink-0 items-start pt-5">
           <button
             aria-label="이전으로"
-            className="ml-4 flex size-10 items-center justify-center rounded-full transition-colors hover:bg-[#f2f4f6]"
+            className="ml-4 flex size-10 items-center justify-center rounded-full transition-colors hover:bg-[#f2f4f6] active:bg-[#e5e8eb]"
             onClick={handleBack}
             type="button"
           >
