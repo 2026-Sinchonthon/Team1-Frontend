@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import MyPage from './pages/my';
 import {
@@ -14,7 +14,6 @@ import {
   ReservationOnboardingStep6,
 } from './pages/onboarding';
 import { OwnerOnboardingProvider } from './pages/onboarding/owner/OwnerOnboardingContext';
-import OwnerOnboardingShell from './pages/onboarding/owner/OwnerOnboardingShell';
 import {
   ProposalCheckPage,
   ProposalCreatePage,
@@ -23,7 +22,7 @@ import {
 function OwnerOnboardingRoutes() {
   return (
     <OwnerOnboardingProvider>
-      <OwnerOnboardingShell />
+      <Outlet />
     </OwnerOnboardingProvider>
   );
 }

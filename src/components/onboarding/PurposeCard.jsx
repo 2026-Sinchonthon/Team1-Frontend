@@ -1,7 +1,11 @@
 function PurposeCard({ description, emoji, isSelected = false, onClick, title }) {
   return (
     <button
-      className="w-full rounded-2xl border-2 border-transparent bg-[#f2f4f6] p-5 text-left font-['Pretendard',sans-serif] transition-colors hover:bg-[#e5e8eb] focus-visible:border-[#3182f6] focus-visible:outline-none active:bg-[#dfe3e7]"
+      className={`w-full rounded-2xl border-2 p-5 text-left font-['Pretendard',sans-serif] transition-colors focus-visible:outline-none ${
+        isSelected
+          ? 'border-[#3182f6] bg-[#edf6ff]'
+          : 'border-transparent bg-[#f2f4f6] hover:bg-[#e5e8eb] active:bg-[#dfe3e7]'
+      }`}
       type="button"
       aria-pressed={isSelected}
       onClick={onClick}
