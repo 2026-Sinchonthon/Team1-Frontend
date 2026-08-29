@@ -14,7 +14,7 @@ function OwnerReservationDetailPage() {
 
   return (
     <MobileLayout>
-      <section className="flex min-h-dvh flex-col overflow-hidden bg-[#f2f4f6] font-['Pretendard',sans-serif] sm:min-h-[844px]">
+      <section className="flex h-full min-h-0 flex-col overflow-hidden bg-[#f2f4f6] font-['Pretendard',sans-serif]">
         <ProposalHeader title="마이페이지" />
 
         <div className="flex flex-1 flex-col overflow-y-auto px-6 py-6">

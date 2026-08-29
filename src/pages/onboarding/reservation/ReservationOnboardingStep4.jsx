@@ -25,7 +25,7 @@ function ReservationOnboardingStep4() {
         </h1>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-6">
+      <div className="min-h-0 flex-1 overflow-y-auto px-6">
         <Calendar selectedDate={selectedDate} onSelect={handleDateSelect} />
         {selectedDate && (
           <section className="pb-2 pt-6">
