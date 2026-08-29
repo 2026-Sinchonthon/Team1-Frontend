@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import ReservationOnboardingLayout from './ReservationOnboardingLayout';
+import { useReservationOnboarding } from './useReservationOnboarding';
 
 function ReservationOnboardingStep1() {
-  const [groupName, setGroupName] = useState('');
+  const { formData, updateFormData } = useReservationOnboarding();
+  const { groupName } = formData;
 
   return (
     <ReservationOnboardingLayout
@@ -26,7 +27,7 @@ function ReservationOnboardingStep1() {
           value={groupName}
           placeholder="예: 컴퓨터공학과 학생회"
           autoComplete="organization"
-          onChange={(event) => setGroupName(event.target.value)}
+          onChange={(event) => updateFormData({ groupName: event.target.value })}
         />
       </div>
     </ReservationOnboardingLayout>

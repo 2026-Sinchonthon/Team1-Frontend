@@ -6,7 +6,13 @@ import MobileLayout from '../../../layouts/MobileLayout';
 
 const TOTAL_STEPS = 6;
 
-function ReservationOnboardingLayout({ children, nextDisabled = false, step }) {
+function ReservationOnboardingLayout({
+  children,
+  nextDisabled = false,
+  nextLabel = '다음',
+  onNext,
+  step,
+}) {
   const navigate = useNavigate();
   const previousProgress = ((step - 1) / TOTAL_STEPS) * 100;
   const currentProgress = (step / TOTAL_STEPS) * 100;
@@ -21,6 +27,10 @@ function ReservationOnboardingLayout({ children, nextDisabled = false, step }) {
   }, [currentProgress]);
 
   const handleNext = () => {
+    if (onNext) {
+      onNext();
+      return;
+    }
     if (step < TOTAL_STEPS) {
       navigate(`/onboarding/reservation/${step + 1}`);
     }
@@ -51,6 +61,7 @@ function ReservationOnboardingLayout({ children, nextDisabled = false, step }) {
         <footer className="h-[108px] shrink-0 px-6 pb-10 pt-3">
           <OnboardingNextButton
             disabled={nextDisabled || step === TOTAL_STEPS}
+            label={nextLabel}
             onClick={handleNext}
           />
         </footer>

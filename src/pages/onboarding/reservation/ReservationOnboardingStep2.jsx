@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import OnboardingChoiceCard from '../../../components/onboarding/OnboardingChoiceCard';
 import ReservationOnboardingLayout from './ReservationOnboardingLayout';
+import { useReservationOnboarding } from './useReservationOnboarding';
 
 const GROUP_TYPES = ['학생회', '동아리', '학과 회식', '기타'];
 
 function ReservationOnboardingStep2() {
-  const [selectedType, setSelectedType] = useState(null);
+  const { formData, updateFormData } = useReservationOnboarding();
+  const selectedType = formData.purpose;
 
   return (
     <ReservationOnboardingLayout
@@ -24,7 +25,7 @@ function ReservationOnboardingStep2() {
             key={type}
             label={type}
             isSelected={selectedType === type}
-            onClick={() => setSelectedType(type)}
+            onClick={() => updateFormData({ purpose: type })}
           />
         ))}
       </div>

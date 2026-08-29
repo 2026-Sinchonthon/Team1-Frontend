@@ -15,6 +15,7 @@ import {
   ReservationOnboardingStep6,
 } from './pages/onboarding';
 import { OwnerOnboardingProvider } from './pages/onboarding/owner/OwnerOnboardingContext';
+import { ReservationOnboardingProvider } from './pages/onboarding/reservation/ReservationOnboardingContext';
 import {
   ProposalCheckPage,
   ProposalCreatePage,
@@ -37,6 +38,14 @@ function OwnerOnboardingRoutes() {
   );
 }
 
+function ReservationOnboardingRoutes() {
+  return (
+    <ReservationOnboardingProvider>
+      <Outlet />
+    </ReservationOnboardingProvider>
+  );
+}
+
 function OwnerProposalRoutes() {
   return (
     <OwnerProposalProvider>
@@ -52,13 +61,15 @@ function App() {
 
       <Route path="/onboarding" element={<Navigate to="/onboarding/reservation/1" replace />} />
       <Route path="/onboarding/:step" element={<Navigate to="/onboarding/reservation/1" replace />} />
-      <Route path="/onboarding/reservation" element={<Navigate to="/onboarding/reservation/1" replace />} />
-      <Route path="/onboarding/reservation/1" element={<ReservationOnboardingStep1 />} />
-      <Route path="/onboarding/reservation/2" element={<ReservationOnboardingStep2 />} />
-      <Route path="/onboarding/reservation/3" element={<ReservationOnboardingStep3 />} />
-      <Route path="/onboarding/reservation/4" element={<ReservationOnboardingStep4 />} />
-      <Route path="/onboarding/reservation/5" element={<ReservationOnboardingStep5 />} />
-      <Route path="/onboarding/reservation/6" element={<ReservationOnboardingStep6 />} />
+      <Route element={<ReservationOnboardingRoutes />}>
+        <Route path="/onboarding/reservation" element={<Navigate to="/onboarding/reservation/1" replace />} />
+        <Route path="/onboarding/reservation/1" element={<ReservationOnboardingStep1 />} />
+        <Route path="/onboarding/reservation/2" element={<ReservationOnboardingStep2 />} />
+        <Route path="/onboarding/reservation/3" element={<ReservationOnboardingStep3 />} />
+        <Route path="/onboarding/reservation/4" element={<ReservationOnboardingStep4 />} />
+        <Route path="/onboarding/reservation/5" element={<ReservationOnboardingStep5 />} />
+        <Route path="/onboarding/reservation/6" element={<ReservationOnboardingStep6 />} />
+      </Route>
 
       <Route element={<OwnerOnboardingRoutes />}>
         <Route path="/onboarding/owner" element={<Navigate to="/onboarding/owner/1" replace />} />

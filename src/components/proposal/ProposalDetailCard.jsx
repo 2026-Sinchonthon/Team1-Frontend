@@ -5,9 +5,8 @@ import AiMenuRecommendation from './AiMenuRecommendation';
 
 const formatPrice = (price) => `${price.toLocaleString('ko-KR')}원`;
 
-function ProposalDetailCard({ proposal, tableCount, onAccepted }) {
+function ProposalDetailCard({ isAccepted, isAccepting, onAccept, proposal, tableCount }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isAccepted, setIsAccepted] = useState(false);
 
   return (
     <section className="overflow-hidden rounded-2xl bg-white shadow-[0_1px_8px_rgba(0,0,0,0.06)]">
@@ -40,38 +39,39 @@ function ProposalDetailCard({ proposal, tableCount, onAccepted }) {
       <div className="mx-5 border-t border-[#f2f4f6]" />
 
       <div className="p-5">
-        <button
-          className="flex h-12 w-full items-center justify-between rounded-xl bg-[#f2f4f6] px-4 text-[15px] font-semibold leading-[22.5px] text-[#4e5968]"
-          type="button"
-          onClick={() => setIsExpanded((current) => !current)}
-        >
-          AI 안주 조합 추천
-          <img className={`size-[18px] transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} src={chevronDown} alt="" />
-        </button>
+        {proposal.recommendations.length > 0 && (
+          <>
+            <button
+              className="flex h-12 w-full items-center justify-between rounded-xl bg-[#f2f4f6] px-4 text-[15px] font-semibold leading-[22.5px] text-[#4e5968]"
+              type="button"
+              onClick={() => setIsExpanded((current) => !current)}
+            >
+              AI 안주 조합 추천
+              <img className={`size-[18px] transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} src={chevronDown} alt="" />
+            </button>
 
-        {isExpanded && (
-          <div className="flex flex-col gap-3 py-3">
-            {proposal.recommendations.map((recommendation) => (
-              <AiMenuRecommendation key={recommendation.id} recommendation={recommendation} />
-            ))}
-          </div>
+            {isExpanded && (
+              <div className="flex flex-col gap-3 py-3">
+                {proposal.recommendations.map((recommendation) => (
+                  <AiMenuRecommendation key={recommendation.id} recommendation={recommendation} />
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         <button
-          className={`flex h-12 w-full items-center justify-center gap-2 rounded-xl text-[15px] font-semibold leading-[22.5px] ${isExpanded ? '' : 'mt-3'} ${isAccepted ? 'bg-[#f2f4f6] text-[#4e5968]' : 'bg-[#3182f6] text-white'}`}
+          className={`flex h-12 w-full items-center justify-center gap-2 rounded-xl text-[15px] font-semibold leading-[22.5px] ${proposal.recommendations.length > 0 && !isExpanded ? 'mt-3' : ''} ${isAccepted ? 'bg-[#f2f4f6] text-[#4e5968]' : 'bg-[#3182f6] text-white'}`}
           type="button"
-          disabled={isAccepted}
-          onClick={() => {
-            setIsAccepted(true);
-            onAccepted?.();
-          }}
+          disabled={isAccepted || isAccepting}
+          onClick={onAccept}
         >
           {isAccepted && (
             <span className="flex size-5 items-center justify-center rounded-full bg-[#3182f6]">
               <img className="size-[11px]" src={acceptCheck} alt="" />
             </span>
           )}
-          {isAccepted ? '수락 완료' : '제안 수락하기'}
+          {isAccepted ? '수락 완료' : isAccepting ? '수락 중...' : '제안 수락하기'}
         </button>
       </div>
     </section>
