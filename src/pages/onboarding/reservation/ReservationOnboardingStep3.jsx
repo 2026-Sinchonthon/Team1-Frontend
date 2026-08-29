@@ -1,14 +1,15 @@
-import { useState } from 'react';
 import infoCircle from '../../../assets/icons/info-circle.svg';
 import ReservationOnboardingLayout from './ReservationOnboardingLayout';
+import { useReservationOnboarding } from './useReservationOnboarding';
 
 function ReservationOnboardingStep3() {
-  const [guestCount, setGuestCount] = useState(0);
+  const { formData, updateFormData } = useReservationOnboarding();
+  const guestCount = formData.headcount;
   const tableCount = guestCount ? Math.ceil(guestCount / 4) : 0;
 
   const handleGuestCountChange = (event) => {
     const digits = event.target.value.replace(/\D/g, '');
-    setGuestCount(digits ? Number(digits) : 0);
+    updateFormData({ headcount: digits ? Number(digits) : 0 });
   };
 
   return (

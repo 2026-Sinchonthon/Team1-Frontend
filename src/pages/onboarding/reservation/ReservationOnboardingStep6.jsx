@@ -2,9 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import completionCheckIcon from '../../../assets/icons/completion-check.svg';
 import OnboardingNextButton from '../../../components/onboarding/OnboardingNextButton';
 import MobileLayout from '../../../layouts/MobileLayout';
+import { useReservationOnboarding } from './useReservationOnboarding';
 
 function ReservationOnboardingStep6() {
   const navigate = useNavigate();
+  const { requestId } = useReservationOnboarding();
 
   return (
     <MobileLayout
@@ -12,7 +14,7 @@ function ReservationOnboardingStep6() {
         <div className="h-[108px] px-6 pt-3">
           <OnboardingNextButton
             label="제안 확인하러 가기"
-            onClick={() => navigate('/proposals')}
+            onClick={() => navigate(`/proposals?requestId=${requestId}`)}
           />
         </div>
       }

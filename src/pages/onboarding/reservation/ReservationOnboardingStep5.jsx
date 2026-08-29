@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ReservationOnboardingLayout from './ReservationOnboardingLayout';
+import { useReservationOnboarding } from './useReservationOnboarding';
 
 const BUDGET_OPTIONS = [
   { label: '50만원', value: 500000 },
@@ -8,15 +10,42 @@ const BUDGET_OPTIONS = [
 ];
 
 function ReservationOnboardingStep5() {
-  const [budget, setBudget] = useState(1000000);
+  const navigate = useNavigate();
+  const { formData, submitRequest, updateFormData } = useReservationOnboarding();
+  const budget = formData.totalBudget;
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleBudgetChange = (event) => {
     const digits = event.target.value.replace(/\D/g, '');
-    setBudget(digits ? Number(digits) : 0);
+    updateFormData({ totalBudget: digits ? Number(digits) : 0 });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setIsSubmitting(true);
+      setError('');
+      await submitRequest();
+      navigate('/onboarding/reservation/6');
+    } catch (requestError) {
+      const fieldErrors = Object.values(requestError.response?.data?.error ?? {});
+      setError(
+        fieldErrors.join(' ') ||
+          requestError.response?.data?.message ||
+          '예약 요청을 등록하지 못했습니다.',
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <ReservationOnboardingLayout step={5} nextDisabled={!budget}>
+    <ReservationOnboardingLayout
+      step={5}
+      nextDisabled={!budget || isSubmitting}
+      nextLabel={isSubmitting ? '등록 중...' : '다음'}
+      onNext={handleSubmit}
+    >
       <div className="px-6 pb-8 pt-5">
         <h1 className="text-[22px] font-semibold leading-[33px] text-[#191f28]">
           예산은 얼마인가요?
@@ -42,12 +71,14 @@ function ReservationOnboardingStep5() {
           {BUDGET_OPTIONS.map((option) => {
             const isSelected = budget === option.value;
             return (
-              <button key={option.value} className={`flex-1 rounded-2xl text-[14px] font-semibold leading-[21px] transition-colors ${isSelected ? 'bg-[#3182f6] text-white' : 'bg-[#f2f4f6] text-[#4e5968]'}`} type="button" aria-pressed={isSelected} onClick={() => setBudget(option.value)}>
+              <button key={option.value} className={`flex-1 rounded-2xl text-[14px] font-semibold leading-[21px] transition-colors ${isSelected ? 'bg-[#3182f6] text-white' : 'bg-[#f2f4f6] text-[#4e5968]'}`} type="button" aria-pressed={isSelected} onClick={() => updateFormData({ totalBudget: option.value })}>
                 {option.label}
               </button>
             );
           })}
         </div>
+
+        {error && <p className="pt-3 text-[13px] text-[#ff637e]">{error}</p>}
       </div>
     </ReservationOnboardingLayout>
   );

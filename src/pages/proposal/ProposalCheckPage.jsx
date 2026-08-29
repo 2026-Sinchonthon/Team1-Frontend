@@ -1,12 +1,16 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import chevronLeft from '../../assets/icons/chevron-left.svg';
 import BottomNav from '../../components/common/BottomNav';
 import ProposalListCard from '../../components/proposal/ProposalListCard';
 import MobileLayout from '../../layouts/MobileLayout';
-import { proposalRequest, proposals } from '../../mocks/proposals';
+import { proposalRequest } from '../../mocks/proposals';
+import { getRequestId, useOffers } from './useOffers';
 
 function ProposalCheckPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const requestId = getRequestId(searchParams);
+  const { error, isLoading, offers } = useOffers(requestId);
 
   return (
     <MobileLayout footer={<BottomNav />}>
@@ -40,15 +44,33 @@ function ProposalCheckPage() {
 
         <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-4">
           <p className="py-3 text-[14px] font-semibold leading-[21px] text-[#4e5968]">
-            총 <span className="text-[#3182f6]">{proposals.length}개</span> 제안이 왔어요
+            총 <span className="text-[#3182f6]">{offers.length}개</span> 제안이 왔어요
           </p>
 
+          {isLoading && (
+            <p className="rounded-2xl bg-white p-5 text-center text-[14px] text-[#8b95a1]">
+              제안을 불러오는 중이에요.
+            </p>
+          )}
+
+          {!isLoading && error && (
+            <p className="rounded-2xl bg-white p-5 text-center text-[14px] text-[#8b95a1]">
+              {error}
+            </p>
+          )}
+
+          {!isLoading && !error && offers.length === 0 && (
+            <p className="rounded-2xl bg-white p-5 text-center text-[14px] text-[#8b95a1]">
+              아직 도착한 제안이 없어요.
+            </p>
+          )}
+
           <div className="flex flex-col gap-3">
-            {proposals.map((proposal) => (
+            {offers.map((proposal) => (
               <ProposalListCard
                 key={proposal.id}
                 proposal={proposal}
-                onClick={() => navigate(`/proposals/${proposal.id}`)}
+                onClick={() => navigate(`/proposals/${proposal.id}?requestId=${requestId}`)}
               />
             ))}
           </div>
