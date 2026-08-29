@@ -14,7 +14,7 @@ function ReservationDetailPage() {
 
   return (
     <MobileLayout footer={<BottomNav />}>
-      <section className="flex min-h-[calc(100dvh-127px)] flex-col overflow-hidden bg-[#f2f4f6] font-['Pretendard',sans-serif] sm:min-h-[717px]">
+      <section className="flex h-full min-h-0 flex-col overflow-hidden bg-[#f2f4f6] font-['Pretendard',sans-serif]">
         <header className="flex h-[76px] shrink-0 items-center bg-white px-6 pb-4 pt-5">
           <button className="-ml-2 flex size-10 items-center justify-center rounded-full transition-colors hover:bg-[#f2f4f6] active:bg-[#e5e8eb]" type="button" onClick={() => navigate(-1)}>
             <img className="size-6" src={chevronLeft} alt="" />

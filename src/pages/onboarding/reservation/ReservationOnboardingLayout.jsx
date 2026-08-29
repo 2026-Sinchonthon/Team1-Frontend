@@ -28,7 +28,7 @@ function ReservationOnboardingLayout({ children, nextDisabled = false, step }) {
 
   return (
     <MobileLayout>
-      <section className="flex h-full flex-col overflow-hidden bg-white font-['Pretendard',sans-serif]">
+      <section className="flex h-full min-h-0 flex-col overflow-hidden bg-white font-['Pretendard',sans-serif]">
         <div className="h-0.5 w-full shrink-0 bg-[#f2f4f6]">
           <div
             className="h-full bg-[#3182f6] transition-[width] duration-500 ease-out"
@@ -46,7 +46,7 @@ function ReservationOnboardingLayout({ children, nextDisabled = false, step }) {
           </button>
         </header>
 
-        <div className="flex flex-1 flex-col overflow-y-auto">{children}</div>
+        <div className="flex min-h-0 flex-1 flex-col">{children}</div>
 
         <footer className="h-[108px] shrink-0 px-6 pb-10 pt-3">
           <OnboardingNextButton

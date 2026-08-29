@@ -10,7 +10,7 @@ function ProposalCheckPage() {
 
   return (
     <MobileLayout footer={<BottomNav />}>
-      <section className="flex min-h-[calc(100dvh-127px)] flex-col overflow-hidden bg-[#f2f4f6] font-['Pretendard',sans-serif] sm:min-h-[717px]">
+      <section className="flex h-full min-h-0 flex-col overflow-hidden bg-[#f2f4f6] font-['Pretendard',sans-serif]">
         <div className="shrink-0 bg-white">
           <header className="flex items-center px-6 pb-4 pt-5">
             <button

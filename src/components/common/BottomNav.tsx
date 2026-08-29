@@ -6,7 +6,7 @@ import proposalsIcon from '../../assets/icons/nav-proposals.svg';
 import proposalsActiveIcon from '../../assets/icons/nav-proposals-active.svg';
 
 const NAV_ITEMS = [
-  { label: '제안 등록하기', path: '/proposals/new', icon: registerIcon },
+  { label: '제안 등록하기', path: '/onboarding/reservation/1', icon: registerIcon },
   { label: '마이페이지', path: '/my', icon: myInactiveIcon, activeIcon: myIcon },
   { label: '제안 확인하기', path: '/proposals', icon: proposalsIcon, activeIcon: proposalsActiveIcon },
 ];

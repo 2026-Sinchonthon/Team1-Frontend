@@ -18,7 +18,7 @@ function MainPage() {
 
   return (
     <MobileLayout>
-      <section className="flex h-full flex-col overflow-hidden bg-white font-['Pretendard',sans-serif]">
+      <section className="flex h-full min-h-0 flex-col overflow-hidden bg-white font-['Pretendard',sans-serif]">
         <header className="shrink-0 px-6 pb-8 pt-5">
           <p className="text-[13px] font-semibold leading-[19.5px] tracking-[1.3px] text-[#3182f6]">
             UNIPUB
@@ -30,7 +30,7 @@ function MainPage() {
           </h1>
         </header>
 
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-6">
+        <div className="flex flex-1 flex-col gap-4 px-6">
           <PurposeCard
             emoji="🍻"
             title="단체 예약하기"
