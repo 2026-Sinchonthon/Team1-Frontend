@@ -24,10 +24,10 @@ function ProposalDetailPage() {
 
   return (
     <MobileLayout>
-      <section className="flex min-h-dvh flex-col overflow-hidden bg-[#f2f4f6] font-['Pretendard',sans-serif] sm:min-h-[844px]">
+      <section className="flex h-full flex-col overflow-hidden bg-[#f2f4f6] font-['Pretendard',sans-serif]">
         <ProposalHeader title={request.groupName} />
 
-        <div className="flex flex-1 gap-3 px-6 py-5">
+        <div className="flex flex-1 gap-3 overflow-y-auto px-6 py-5">
           <div className="flex shrink-0 flex-col items-center gap-2 pt-1">
             <span
               className="flex size-14 items-center justify-center rounded-2xl text-[26px]"

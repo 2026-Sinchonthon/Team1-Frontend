@@ -4,7 +4,7 @@ function ProposalHeader({ title }) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex shrink-0 items-center bg-white px-6 pb-4 pt-[72px]">
+    <div className="flex shrink-0 items-center bg-white px-6 pb-4 pt-5">
       <button
         aria-label="이전으로"
         className="flex size-10 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-[#f2f4f6]"
